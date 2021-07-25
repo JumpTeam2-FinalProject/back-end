@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.exception.TodosNotFoundException;
 import com.cognixia.jump.model.Review;
-import com.cognixia.jump.model.Todos;
 import com.cognixia.jump.repository.ReviewRepository;
 
 @RequestMapping("/api")
