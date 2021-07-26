@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.repository.ReviewRepository;
+import com.cognixia.jump.service.ReviewService;
 
 @RequestMapping("/api")
 @RestController
@@ -23,46 +24,28 @@ public class ReviewController {
 	@Autowired
 	ReviewRepository repo;
 	
+	@Autowired
+	ReviewService service;
+	
 	@GetMapping("/todos")
 	public ResponseEntity<List<Review>> getReviews() {
 		
 		return ResponseEntity.status(200)
-				 .body(repo.findAll());
+				 .body(service.getReviews());
 	}	
 	
 	@GetMapping("/reviews/{review_id}")
 	public ResponseEntity<Review> getReviewsById(@Valid @PathVariable("review_id") int review_id) {
 		
-		Optional<Review> reviewOpt = repo.findById(review_id);
-	
-		
-		if (reviewOpt.isPresent()) {
-			return ResponseEntity.status(200)
-					 .body(reviewOpt.get());
-		}
-		
-		else {
-			return ResponseEntity.status(400)
-					 .body(reviewOpt.get());
-		}
+		return ResponseEntity.status(200)
+				 .body(service.getReviewsById(review_id));
 	}
 	
 	@DeleteMapping("/reviews/{review_id}")
 	public ResponseEntity<Review> deleteTodoById(@Valid @PathVariable("review_id") int review_id) {
 		
-	    Optional<Review> reviewOpt = repo.findById(review_id);
-	    
-	    repo.deleteById(review_id);
-	    
-	    if (reviewOpt.isPresent()) {
-	    	return ResponseEntity.status(200)
-					 .body(reviewOpt.get());
-	    }
-
-		else {
-			return ResponseEntity.status(400)
-					 .body(reviewOpt.get());
-		}
+		return ResponseEntity.status(200)
+				 .body(service.deleteReviewById(review_id));
 
 	}
 	
