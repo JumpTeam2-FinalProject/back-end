@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.cognixia.jump.model.Restaurant;
 
 @Repository
-public interface ResturantRepository extends JpaRepository <Restaurant, Integer> {
+public interface RestaurantRepository extends JpaRepository <Restaurant, Integer> {
 
 }
