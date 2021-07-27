@@ -37,18 +37,19 @@ public class Review {
 	@JsonBackReference
 	private User user;
 	
-	
 
-	public Review(Integer review_id, Integer rating, String review, Date date, /** Restaurant restaurant,*/
+	public Review(Integer review_id, Integer rating, String review, Date date, Restaurant restaurant,
 			User user) {
 		super();
 		this.review_id = review_id;
 		this.rating = rating;
 		this.review = review;
 		this.date = date;
-//		this.restaurant = restaurant;
+		this.restaurant = restaurant;
 		this.user = user;
 	}
+	
+	public Review() {}
 
 	public Integer getReview_id() {
 		return review_id;
@@ -82,13 +83,13 @@ public class Review {
 		this.date = date;
 	}
 
-//	public Restaurant getRestaurant() {
-//		return restaurant;
-//	}
-//
-//	public void setRestaurant(Restaurant restaurant) {
-//		this.restaurant = restaurant;
-//	}
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	public User getUser() {
 		return user;

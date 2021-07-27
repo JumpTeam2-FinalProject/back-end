@@ -44,9 +44,5 @@ public class RestaurantController {
 		
 		return restaurantService.updateRestaurant(id, restauranUpdated);
 	}
-	
-	
-	
-	
 
 }
