@@ -27,7 +27,7 @@ public class ReviewController {
 	@Autowired
 	ReviewService service;
 	
-	@GetMapping("/todos")
+	@GetMapping("/reviews")
 	public ResponseEntity<List<Review>> getReviews() {
 		
 		return ResponseEntity.status(200)
