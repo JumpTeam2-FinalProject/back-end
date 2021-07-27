@@ -25,6 +25,7 @@ public class User implements Serializable {
 	public enum Role { USER, ADMIN }
 
 	@Id
+	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	
@@ -45,12 +46,12 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private Role role;
 	
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//	private List<Reviews> reviews;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Review> reviews;
 
 	public User() {
-		this(null, null, null, Role.USER);
+		this("N/A", "N/A", "N/A", Role.USER);
 	}
 	public User(String username, String password, String name, Role role) {
 		this(-1, username, password, name, role);
