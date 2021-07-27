@@ -27,10 +27,10 @@ public class Review {
 	
 	private Date date;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurant_id")
-//	@JsonBackReference
-//	private Restaurant restaurant;
+	@ManyToOne
+	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurant_id")
+	@JsonBackReference
+	private Restaurant restaurant;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")

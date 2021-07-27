@@ -6,10 +6,12 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.repository.ReviewRepository;
 
+@Service
 public class ReviewService {
 	
 	@Autowired
