@@ -2,6 +2,7 @@ package com.cognixia.jump.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +13,9 @@ import javax.validation.constraints.NotNull;
 import com.cognixia.jump.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+@Entity
 public class Review {
+// * * NOTE: Restaurant stuff needs un-commented out when related files are added! * * * * * * * * * * * * * *
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +27,10 @@ public class Review {
 	
 	private Date date;
 	
-	@ManyToOne
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurant_id")
-	@JsonBackReference
-	private Restaurant restaurant;
+//	@ManyToOne
+//	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurant_id")
+//	@JsonBackReference
+//	private Restaurant restaurant;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
@@ -36,14 +39,14 @@ public class Review {
 	
 	
 
-	public Review(Integer review_id, Integer rating, String review, Date date, Restaurant restaurant,
+	public Review(Integer review_id, Integer rating, String review, Date date, /** Restaurant restaurant,*/
 			User user) {
 		super();
 		this.review_id = review_id;
 		this.rating = rating;
 		this.review = review;
 		this.date = date;
-		this.restaurant = restaurant;
+//		this.restaurant = restaurant;
 		this.user = user;
 	}
 
@@ -79,13 +82,13 @@ public class Review {
 		this.date = date;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
+//	public Restaurant getRestaurant() {
+//		return restaurant;
+//	}
+//
+//	public void setRestaurant(Restaurant restaurant) {
+//		this.restaurant = restaurant;
+//	}
 
 	public User getUser() {
 		return user;
