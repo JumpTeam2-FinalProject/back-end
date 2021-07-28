@@ -53,9 +53,7 @@ public class UserController {
 
 	@PostMapping("/user")
 	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
-		
 		try {
-//			return ResponseEntity.ok(null);
 			return ResponseEntity.ok(repo.save(user));
 		} catch (Exception e) {
 			throw new Exception("Your user info could not be saved.", e);
