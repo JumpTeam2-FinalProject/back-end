@@ -27,6 +27,7 @@ public class Review {
 	
 	private Date date;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurant_id")
 	@JsonBackReference(value = "restaurant-review")
@@ -47,6 +48,10 @@ public class Review {
 		this.date = date;
 		this.restaurant = restaurant;
 		this.user = user;
+	}
+	
+	public Review(Integer rating, String review, Date date, Integer restaurant_id, Integer user_id) {
+		
 	}
 	
 	public Review() {}
