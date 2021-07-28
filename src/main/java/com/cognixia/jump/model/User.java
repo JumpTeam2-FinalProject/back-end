@@ -30,8 +30,7 @@ public class User implements Serializable {
 	private Integer userId;
 	
 	@Column(unique = true)
-	@Size(min = 3, message = "Your username must be at least 3 characters long.")
-	@NotBlank(message = "Your username cannot be blank.")
+	@NotBlank(message = "Your email cannot be blank.")
 	private String username;
 	
 	@NotBlank(message = "Your password must not be blank.")
@@ -39,32 +38,46 @@ public class User implements Serializable {
 	@Column(nullable = false )
 	private String password;
 	
-	@NotBlank(message = "You must enter your name.")
-	private String name;
+	@Column(name = "first_name")
+	@NotBlank(message = "Your first name cannot be blank.")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	@NotBlank(message = "Your last name cannot be blank.")
+	private String lastName;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Role role;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value = "user-review")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Review> reviews;
 
 	public User() {
-		this("N/A", "N/A", "N/A", Role.USER);
+		this("N/A", "N/A", "N/A", "N/A", Role.USER);
 	}
-	public User(String username, String password, String name, Role role) {
-		this(-1, username, password, name, role);
+	public User(String username, String password, String firstName, String lastName) {
+		this(username, password, firstName, lastName, Role.USER);
 	}
-	public User(Integer userId, String username, String password, String name, Role role) {
+	public User(String username, String password, String firstName, String lastName, Role role) {
+		this(-1, username, password, firstName, lastName, role);
+	}
+	public User(Integer userId, String username, String password, String firstName, String lastName, Role role) {
 		super();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.role = role;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", email=" + username + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", role=" + role + "]";
+	}
 	public Integer getUserId() {
 		return userId;
 	}
@@ -83,11 +96,17 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public Role getRole() {
 		return role;
@@ -95,4 +114,11 @@ public class User implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 }
