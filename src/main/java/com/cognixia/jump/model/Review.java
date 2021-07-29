@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import com.cognixia.jump.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Review {
@@ -25,6 +26,7 @@ public class Review {
 	
 	private String review;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
 	private Date date;
 	
 	
