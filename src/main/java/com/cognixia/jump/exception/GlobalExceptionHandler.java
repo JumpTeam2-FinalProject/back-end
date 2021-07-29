@@ -2,6 +2,8 @@ package com.cognixia.jump.exception;
 
 import java.util.Date;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,8 +24,17 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
 	}
 	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<?> handleFailedValidationError(ConstraintViolationException ex, WebRequest request) {
+		
+		ErrorDetails errorDetails = 
+				new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorDetails);
+	}
+	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
+	public ResponseEntity<?> handleGenericError(Exception ex, WebRequest request) {
 		
 		ErrorDetails errorDetails = 
 				new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
