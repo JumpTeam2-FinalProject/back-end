@@ -1,5 +1,7 @@
 package com.cognixia.jump.model;
 
+import java.util.Date;
+
 public class NewReview {
 	
 	private Review review;
@@ -11,6 +13,10 @@ public class NewReview {
 		this.review = review;
 		this.user_id = user_id;
 		this.restaurant_id = restaurant_id;
+	}
+	
+	public NewReview() {
+		
 	}
 
 	public Review getReview() {

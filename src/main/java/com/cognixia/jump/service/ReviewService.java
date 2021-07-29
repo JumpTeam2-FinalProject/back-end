@@ -1,7 +1,9 @@
 package com.cognixia.jump.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,7 @@ public class ReviewService {
 	
     public Review addReview(NewReview newReview) {
     	
+    	
     	Review review = newReview.getReview();
     	
     	Restaurant restaurantHolder = new Restaurant();
@@ -57,6 +60,12 @@ public class ReviewService {
     	
     	review.setRestaurant(restaurantHolder);
     	review.setUser(userHolder);
+    	
+    	LocalDate localDate = LocalDate.now();
+    	
+    	Date date = java.sql.Date.valueOf(localDate);
+    	
+    	review.setDate(date);
     	
     	repo.save(review);
     	
