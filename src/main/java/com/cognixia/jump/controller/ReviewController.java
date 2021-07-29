@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.model.NewReview;
+import com.cognixia.jump.model.ReviewDetails;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.repository.ReviewRepository;
 import com.cognixia.jump.service.ReviewService;
@@ -31,21 +31,21 @@ public class ReviewController {
 	ReviewService service;
 	
 	@GetMapping("/reviews")
-	public ResponseEntity<List<Review>> getReviews() {
+	public ResponseEntity<List<ReviewDetails>> getReviews() {
 		
 		return ResponseEntity.status(200)
 				 .body(service.getReviews());
 	}	
 	
 	@GetMapping("/reviews/{review_id}")
-	public ResponseEntity<Review> getReviewsById(@Valid @PathVariable("review_id") int review_id) {
+	public ResponseEntity<ReviewDetails> getReviewsById(@Valid @PathVariable("review_id") int review_id) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsById(review_id));
 	}
 	
 	@PostMapping("/reviews")
-	public ResponseEntity<Review> addReview(@Valid @RequestBody NewReview review) {
+	public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewDetails review) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.addReview(review));
