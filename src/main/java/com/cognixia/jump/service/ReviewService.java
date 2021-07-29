@@ -27,7 +27,7 @@ public class ReviewService {
 	
 	public List<ReviewDetails> getReviews() {
 		
-		List<ReviewDetails> reviews = new ArrayList();
+		List<ReviewDetails> reviews = new ArrayList<ReviewDetails>();
 		
 		List<Review> reviewsList = repo.findAll();
 		
