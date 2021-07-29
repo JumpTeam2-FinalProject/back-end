@@ -2,20 +2,20 @@ package com.cognixia.jump.model;
 
 import java.util.Date;
 
-public class NewReview {
+public class ReviewDetails {
 	
 	private Review review;
 	private Integer user_id;
 	private Integer restaurant_id;
 	
-	public NewReview(Review review, Integer user_id, Integer restaurant_id) {
+	public ReviewDetails(Review review, Integer user_id, Integer restaurant_id) {
 		super();
 		this.review = review;
 		this.user_id = user_id;
 		this.restaurant_id = restaurant_id;
 	}
 	
-	public NewReview() {
+	public ReviewDetails() {
 		
 	}
 

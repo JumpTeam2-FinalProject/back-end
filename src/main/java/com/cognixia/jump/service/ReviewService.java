@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cognixia.jump.model.NewReview;
 import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
+import com.cognixia.jump.model.ReviewDetails;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
 
@@ -25,27 +25,36 @@ public class ReviewService {
 	@Autowired
 	ReviewRepository repo;
 	
-	public List<Review> getReviews() {
+	public List<ReviewDetails> getReviews() {
 		
-		return repo.findAll();
+		List<ReviewDetails> reviews = new ArrayList();
+		
+		List<Review> reviewsList = repo.findAll();
+		
+		for (Review review : reviewsList) {
+			reviews.add(new ReviewDetails(review, review.getUser().getUserId(), review.getRestaurant().getRestaurant_id()));
+		}
+		
+		return reviews;
 		
 	}	
 	
-	public Review getReviewsById(int review_id) {
+	public ReviewDetails getReviewsById(int review_id) {
 		
 		Optional<Review> reviewOpt = repo.findById(review_id);
 		
+		ReviewDetails review = new ReviewDetails(reviewOpt.get(), reviewOpt.get().getUser().getUserId(), reviewOpt.get().getRestaurant().getRestaurant_id());
 		
 		if (reviewOpt.isPresent()) {
-			return reviewOpt.get();
+			return review;
 		}
 		
 		else {
-			return reviewOpt.get();
+			return review;
 		}
 	}
 	
-    public Review addReview(NewReview newReview) {
+    public Review addReview(ReviewDetails newReview) {
     	
     	
     	Review review = newReview.getReview();
