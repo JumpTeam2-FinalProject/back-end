@@ -1,11 +1,16 @@
 package com.cognixia.jump.controller;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +28,7 @@ import com.cognixia.jump.util.JwtUtil;
 
 @RequestMapping("/api")
 @RestController
+@Validated
 public class UserController {
 	
 	@Autowired
@@ -52,11 +58,26 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
+	public ResponseEntity<?> createUser(@RequestBody User user) throws ConstraintViolationException, Exception {
 		try {
 			return ResponseEntity.ok(repo.save(user));
-		} catch (Exception e) {
+		} catch (DataIntegrityViolationException e) {
+			ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
+			System.out.println("\n\n_% %_ %_% _%-5-5--------------->>>>>>\n");
+			e.printStackTrace();
+			System.out.println(e);
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+//			System.out.println(e.g());
+			for (ConstraintViolation<?> cv :  cve.getConstraintViolations()) {
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!1\n\n");
+				System.out.println(cv);
+			}
+			System.out.println("\n_% %_ %_% _%-5-5--------------->>>>>>\n\n");
 			throw new Exception("Your user info could not be saved.", e);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
 	
@@ -73,7 +94,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/user")
-	public User updateUser(@RequestBody User user) throws Exception {
-		return repo.save(user);
+	public ResponseEntity<?> updateUser(@RequestBody User user) throws Exception {
+		return ResponseEntity.ok(repo.save(user));
 	}
 }
