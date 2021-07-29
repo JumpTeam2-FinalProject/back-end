@@ -58,23 +58,9 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	public ResponseEntity<?> createUser(@RequestBody User user) throws ConstraintViolationException, Exception {
+	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
 		try {
 			return ResponseEntity.ok(repo.save(user));
-		} catch (DataIntegrityViolationException e) {
-			ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-			System.out.println("\n\n_% %_ %_% _%-5-5--------------->>>>>>\n");
-			e.printStackTrace();
-			System.out.println(e);
-			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-//			System.out.println(e.g());
-			for (ConstraintViolation<?> cv :  cve.getConstraintViolations()) {
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n!!!!!!!!!!1\n\n");
-				System.out.println(cv);
-			}
-			System.out.println("\n_% %_ %_% _%-5-5--------------->>>>>>\n\n");
-			throw new Exception("Your user info could not be saved.", e);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
