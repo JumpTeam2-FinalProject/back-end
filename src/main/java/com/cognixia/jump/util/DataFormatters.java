@@ -3,8 +3,10 @@ package com.cognixia.jump.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.responsemodels.ReviewDetails;
+import com.cognixia.jump.responsemodels.RestaurantCompleteInfo;
 
 public class DataFormatters {
 	
@@ -17,6 +19,18 @@ public class DataFormatters {
 		}
 		
 		return reviewsDetails;
+	}
+	
+	public static List<RestaurantCompleteInfo> getDetailsFromRestaurants(List<Restaurant> restaurants){
+		
+		List<RestaurantCompleteInfo> restaurantCompleteInfo = new ArrayList<RestaurantCompleteInfo>();
+		
+		for(Restaurant restaurant: restaurants) {
+			restaurantCompleteInfo.add(new RestaurantCompleteInfo(restaurant));
+		}
+		
+		return restaurantCompleteInfo;
+		
 	}
 	
 }

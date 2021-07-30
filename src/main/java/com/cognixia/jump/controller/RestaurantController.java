@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.model.Restaurant;
+import com.cognixia.jump.responsemodels.RestaurantCompleteInfo;
 import com.cognixia.jump.service.RestaurantService;
 
 @RequestMapping("/api")
@@ -30,13 +31,13 @@ public class RestaurantController {
 	
 	
 	@GetMapping(path = "/restaurant")
-	public ResponseEntity <List<Restaurant>> getRestaurants(){
+	public ResponseEntity <List<RestaurantCompleteInfo>> getRestaurants(){
 		return restaurantService.getAllRestaurants();
 	}
 	
 	@GetMapping(path = "/restaurant/{id}")
-	public ResponseEntity <Restaurant> getSingleRestaurant(@PathVariable int id){
-		return restaurantService.getSingleRestaurantById(id);
+	public ResponseEntity<RestaurantCompleteInfo> getSingleRestaurant(@PathVariable int id){
+		return ResponseEntity.ok(restaurantService.getSingleRestaurantById(id));
 	}
 	
 	@PostMapping(path = "/restaurant")
