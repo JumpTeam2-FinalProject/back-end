@@ -1,4 +1,4 @@
-package com.cognixia.jump.model;
+package com.cognixia.jump.responsemodels;
 
 //what user will send in post request when accessing authentication endpoint 
 public class AuthenticationRequest {

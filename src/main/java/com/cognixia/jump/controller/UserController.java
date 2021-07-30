@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.model.AuthenticationRequest;
-import com.cognixia.jump.model.AuthenticationResponse;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
+import com.cognixia.jump.responsemodels.AuthenticationRequest;
+import com.cognixia.jump.responsemodels.AuthenticationResponse;
 import com.cognixia.jump.service.MyUserDetailsService;
+import com.cognixia.jump.service.UserService;
 import com.cognixia.jump.util.JwtUtil;
 
 @RequestMapping("/api")
@@ -33,6 +34,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -58,29 +62,24 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
-		try {
-			return ResponseEntity.ok(repo.save(user));
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+	public ResponseEntity<?> createUser(@RequestBody User user) {
+		return ResponseEntity.ok(userService.createUser(user));
 	}
 	
 	@GetMapping("/user")
 	public ResponseEntity<?> getCurrentUser() {
-		User user = repo.findById(MyUserDetailsService.getCurrentUserId()).get();
-		return ResponseEntity.ok(user);
+//		User user = repo.findById(MyUserDetailsService.getCurrentUserId()).get();
+		return ResponseEntity.ok(userService.getCurrentUser());
 	}
 	
 	@DeleteMapping("/user")
-	public ResponseEntity<?> deleteUser(@RequestBody User user) throws Exception {
+	public ResponseEntity<?> deleteUser(@RequestBody User user) {
 		repo.deleteById(MyUserDetailsService.getCurrentUserId());
 		return ResponseEntity.ok(null);
 	}
 	
 	@PutMapping("/user")
-	public ResponseEntity<?> updateUser(@RequestBody User user) throws Exception {
+	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		return ResponseEntity.ok(repo.save(user));
 	}
 }

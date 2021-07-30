@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Review {
-// * * NOTE: Restaurant stuff needs un-commented out when related files are added! * * * * * * * * * * * * * *
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +52,7 @@ public class Review {
 	}
 	
 	public Review(Integer rating, String review, Date date, Integer restaurant_id, Integer user_id) {
-		
+		// should this constructor be removed?  ~David
 	}
 	
 	public Review() {}
