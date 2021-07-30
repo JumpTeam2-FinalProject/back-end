@@ -34,6 +34,11 @@ public class RestaurantController {
 		return restaurantService.getAllRestaurants();
 	}
 	
+	@GetMapping(path = "/restaurant/{id}")
+	public ResponseEntity <Restaurant> getSingleRestaurant(@PathVariable int id){
+		return restaurantService.getSingleRestaurantById(id);
+	}
+	
 	@PostMapping(path = "/restaurant")
 	public ResponseEntity <Restaurant> postRestaurant(@Valid @RequestBody Restaurant restaurant){
 		return restaurantService.addRestaurant(restaurant);
