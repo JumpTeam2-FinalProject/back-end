@@ -2,6 +2,7 @@ package com.cognixia.jump.config;
 
 import java.util.Collections;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,25 +15,23 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /*
- * On Browser, go to URL: http://localhost:8080/swagger-ui.html
+ * On Browser, go to URL: http://localhost:8080/swagger-ui/index.html
  * 
  * On Postman, do a get request to: http://localhost:8080/v2/api-docs
  * 
  * */
-
-@Configuration
 @EnableSwagger2
+@Configuration
 public class SwaggerConfig {
 	
-	public Docket api() {
-		
-		return new Docket(DocumentationType.SWAGGER_2)
-					.select()
-					.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-					.paths(PathSelectors.any())
-					.build()
-					.apiInfo( apiDetails() );
-	}
+    @Bean
+    public Docket apiDocket() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
+    }
 	
 	private ApiInfo apiDetails() {
 		
