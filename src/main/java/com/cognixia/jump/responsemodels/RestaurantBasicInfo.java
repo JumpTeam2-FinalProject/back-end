@@ -5,7 +5,7 @@ import com.cognixia.jump.model.Restaurant;
 public class RestaurantBasicInfo {
 
 	private Integer restaurant_id;
-	private String name;
+	private String text;
 	private String address;
 	private String description;
 	private int reviewsCount;
@@ -17,13 +17,13 @@ public class RestaurantBasicInfo {
 		super();
 		if (restaurant == null) {
 			this.restaurant_id = -1;
-			this.name = null;
+			this.text = null;
 			this.address = null;
 			this.description = null;
 			this.reviewsCount = -1;
 		} else {
 			this.restaurant_id = restaurant.getRestaurant_id();
-			this.name = restaurant.getName();
+			this.text = restaurant.getText();
 			this.address = restaurant.getAddress();
 			this.description = restaurant.getDescription();
 			this.reviewsCount = restaurant.getReviews().size();
@@ -33,8 +33,8 @@ public class RestaurantBasicInfo {
 	public Integer getRestaurant_id() {
 		return restaurant_id;
 	}
-	public String getName() {
-		return name;
+	public String getText() {
+		return text;
 	}
 	public String getAddress() {
 		return address;
