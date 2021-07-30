@@ -38,5 +38,12 @@ public class RestaurantService {
 	
         return ResponseEntity.status(200).body(restaurantRepository.save(currentRestaurant));
     }
+    
+    public ResponseEntity<Restaurant> getSingleRestaurantById(int id){
+    	 Restaurant singleRestaurant = restaurantRepository.findById(id).orElseThrow(
+         		() -> new IllegalStateException("Restaurant with id = " + id + " does not exist"));
+    	
+    	return ResponseEntity.status(200).body(singleRestaurant);
+    }
 
 }
