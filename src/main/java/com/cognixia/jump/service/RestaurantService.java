@@ -33,7 +33,7 @@ public class RestaurantService {
         
         	currentRestaurant.setAddress(updatedRestaurant.getAddress());
         	currentRestaurant.setDescription(updatedRestaurant.getDescription());
-        	currentRestaurant.setName(updatedRestaurant.getName());
+        	currentRestaurant.setText(updatedRestaurant.getText());
         	
 	
         return ResponseEntity.status(200).body(restaurantRepository.save(currentRestaurant));
