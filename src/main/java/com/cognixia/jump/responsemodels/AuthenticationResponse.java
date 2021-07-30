@@ -1,4 +1,4 @@
-package com.cognixia.jump.model;
+package com.cognixia.jump.responsemodels;
 
 // models object to send in response object.
 	// doesn't represent a database table
