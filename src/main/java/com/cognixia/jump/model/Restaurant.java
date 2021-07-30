@@ -20,8 +20,8 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer restaurant_id;
 	
-	@Column(name = "NAME")
-	private String name;
+	@Column(name = "TEXT")
+	private String text;
 	
 	@Column(name = "ADDRESS")
 	private String address;
@@ -35,10 +35,10 @@ public class Restaurant {
 	
 	public Restaurant() {}
 
-	public Restaurant(Integer restaurant_id, String name, String address, String description, List<Review> reviews) {
+	public Restaurant(Integer restaurant_id, String text, String address, String description, List<Review> reviews) {
 		super();
 		this.restaurant_id = restaurant_id;
-		this.name = name;
+		this.text = text;
 		this.address = address;
 		this.description = description;
 		this.reviews = reviews;
@@ -52,12 +52,12 @@ public class Restaurant {
 		this.restaurant_id = restaurant_id;
 	}
 
-	public String getName() {
-		return name;
+	public String getText() {
+		return text;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public String getAddress() {
