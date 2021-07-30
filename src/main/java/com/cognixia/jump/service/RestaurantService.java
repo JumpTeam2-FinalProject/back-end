@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cognixia.jump.repository.RestaurantRepository;
+import com.cognixia.jump.responsemodels.RestaurantCompleteInfo;
+import com.cognixia.jump.util.DataFormatters;
 import com.cognixia.jump.model.Restaurant;
 
 @Service
@@ -18,8 +20,8 @@ public class RestaurantService {
 		this.restaurantRepository = repo;
 	}
 	
-	public ResponseEntity<List<Restaurant>> getAllRestaurants() {
-        List<Restaurant> restaurantList = restaurantRepository.findAll();
+	public ResponseEntity<List<RestaurantCompleteInfo>> getAllRestaurants() {
+        List<RestaurantCompleteInfo> restaurantList = DataFormatters.getDetailsFromRestaurants(restaurantRepository.findAll());
         return ResponseEntity.status(200).body(restaurantList);
     }
 
@@ -34,16 +36,24 @@ public class RestaurantService {
         	currentRestaurant.setAddress(updatedRestaurant.getAddress());
         	currentRestaurant.setDescription(updatedRestaurant.getDescription());
         	currentRestaurant.setText(updatedRestaurant.getText());
+        	currentRestaurant.setCuisine(updatedRestaurant.getCuisine());
         	
 	
         return ResponseEntity.status(200).body(restaurantRepository.save(currentRestaurant));
     }
     
-    public ResponseEntity<Restaurant> getSingleRestaurantById(int id){
-    	 Restaurant singleRestaurant = restaurantRepository.findById(id).orElseThrow(
-         		() -> new IllegalStateException("Restaurant with id = " + id + " does not exist"));
+//    public ResponseEntity<Restaurant> getSingleRestaurantById(int id){
+//    	 Restaurant singleRestaurant = restaurantRepository.findById(id).orElseThrow(
+//         		() -> new IllegalStateException("Restaurant with id = " + id + " does not exist"));
+//    	
+//    	return ResponseEntity.status(200).body(singleRestaurant);
+//    }
+    
+    public RestaurantCompleteInfo getSingleRestaurantById(int id) {
+    	Restaurant singleRestaurant = restaurantRepository.findById(id).orElseThrow(
+    			() -> new IllegalStateException("Restaurant with id = " + id + " does not exist"));
     	
-    	return ResponseEntity.status(200).body(singleRestaurant);
+    	return new RestaurantCompleteInfo(singleRestaurant);
     }
 
 }

@@ -29,20 +29,25 @@ public class Restaurant {
 	@Column(name = "DESCRIPTION")
 	private String description;
 	
+	@Column(name = "cuisine")
+	private String cuisine;
+	
 	@OneToMany(mappedBy="restaurant" , cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "restaurant-review")
 	private List <Review> reviews;
-	
-	public Restaurant() {}
 
-	public Restaurant(Integer restaurant_id, String text, String address, String description, List<Review> reviews) {
+	public Restaurant(Integer restaurant_id, String text, String address, String description, String cuisine,
+			List<Review> reviews) {
 		super();
 		this.restaurant_id = restaurant_id;
 		this.text = text;
 		this.address = address;
 		this.description = description;
+		this.cuisine = cuisine;
 		this.reviews = reviews;
 	}
+
+	public Restaurant() {}
 
 	public Integer getRestaurant_id() {
 		return restaurant_id;
@@ -76,6 +81,14 @@ public class Restaurant {
 		this.description = description;
 	}
 
+	public String getCuisine() {
+		return cuisine;
+	}
+
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
+	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -83,7 +96,9 @@ public class Restaurant {
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-
+	
+	
+	
 	
 
 }

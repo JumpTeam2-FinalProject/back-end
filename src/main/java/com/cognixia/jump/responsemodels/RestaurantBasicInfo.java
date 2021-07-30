@@ -9,6 +9,7 @@ public class RestaurantBasicInfo {
 	private String address;
 	private String description;
 	private int reviewsCount;
+	private String cuisine;
 	
 	public RestaurantBasicInfo() {
 		this(null);
@@ -21,11 +22,13 @@ public class RestaurantBasicInfo {
 			this.address = null;
 			this.description = null;
 			this.reviewsCount = -1;
+			this.cuisine = null;
 		} else {
 			this.restaurant_id = restaurant.getRestaurant_id();
 			this.text = restaurant.getText();
 			this.address = restaurant.getAddress();
 			this.description = restaurant.getDescription();
+			this.cuisine = restaurant.getCuisine();
 			this.reviewsCount = restaurant.getReviews().size();
 		}
 	}
@@ -44,6 +47,9 @@ public class RestaurantBasicInfo {
 	}
 	public int getReviewsCount() {
 		return reviewsCount;
+	}
+	public String getCuisine() {
+		return cuisine;
 	}
 
 }
