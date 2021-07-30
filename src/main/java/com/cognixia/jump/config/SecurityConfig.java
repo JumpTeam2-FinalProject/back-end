@@ -45,8 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/reviews").permitAll()
-			.antMatchers(HttpMethod.POST, "/api/restaurant").hasRole("ADMIN")
-			.antMatchers(HttpMethod.PUT, "/api/restaurant/update").hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST, "/api/restaurant").permitAll()
+			.antMatchers(HttpMethod.PUT, "/api/restaurant/update").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/restaurant/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/restaurant").permitAll()
 			// Allow unauthenticated access to swagger urls. source: https://stackoverflow.com/questions/37671125/how-to-configure-spring-security-to-allow-swagger-url-to-be-accessed-without-aut#answer-37683455
 //			.antMatchers(HttpMethod.GET, "/v2/api-docs",
