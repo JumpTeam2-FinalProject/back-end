@@ -26,6 +26,14 @@ public class ReviewService {
 	@Autowired
 	ReviewRepository repo;
 	
+	public List<Review> getReviewsSimple() {
+		
+		List<Review> reviewsList = repo.findAll();
+		
+		return reviewsList;
+		
+	}
+	
 	public List<ReviewDetails> getReviews() {
 		
 		List<Review> reviewsList = repo.findAll();

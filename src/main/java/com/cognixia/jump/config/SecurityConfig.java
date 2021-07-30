@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/swagger-ui/*", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/reviews_simple").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/reviews").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/restaurant").permitAll()
 			.antMatchers(HttpMethod.PUT, "/api/restaurant/update").permitAll()

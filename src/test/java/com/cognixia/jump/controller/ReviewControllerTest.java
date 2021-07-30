@@ -79,48 +79,32 @@ class ReviewControllerTest {
 	@Test
 	void testGetAllReviews() throws Exception {
 		
-		String uri = STARTING_URI + "reviews";
+		String uri = STARTING_URI + "reviews_simple";
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date d = sdf.parse("21/12/2012");
 		
-		ReviewDetails review = new ReviewDetails();
+		Review review = new Review(2, 4, "it's AMAZING", d, new Restaurant(), new User());
 		
-		List<ReviewDetails> reviewDetails = new ArrayList<ReviewDetails>();
+		List<Review> reviews = new ArrayList<Review>();
 		
 		review.setUser(new User(1, "kianoosh", "Mokhtari", "123", "ADMIN", null));
-		review.setReview(new Review(2, 4, "it's AMAZING", d , new Restaurant(), new User()));
-		review.setRestaurant(new Restaurant(1, "McDonalds", "123 St", "Junk Food", new ArrayList<Review>()));
+		review.setRestaurant(new Restaurant(1, "McDonalds", "123 St", "Junk Food", "Fast Food", new ArrayList<Review>()));
 		
-		reviewDetails.add(review);
+		reviews.add(review);
 
-		when( service.getReviews() ).thenReturn( reviewDetails );
-		
-		MvcResult result = mockMvc.perform(get(uri)
-			.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk()).andReturn();
-//			.andExpect(content()
-//			.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//			.andExpect(jsonPath("$[0]").value(1));
+		when( service.getReviewsSimple() ).thenReturn( reviews );
 		
 		mockMvc.perform(get(uri)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andDo(print());
-//				.andExpect(content()
-//				.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//				.andExpect(jsonPath("$[0]").value(1));
-		
-		String content = result.getResponse().getContentAsString();
-		
-		System.out.println(content);
-		System.out.println(reviewDetails);
-		
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content()
+			.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$[0].review_id").value(2));
+
+
 	}
-
-
 }
-
 
 
 

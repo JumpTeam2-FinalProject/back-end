@@ -37,6 +37,13 @@ public class ReviewController {
 				 .body(service.getReviews());
 	}	
 	
+	@GetMapping("/reviews_simple")
+	public ResponseEntity<List<Review>> getReviewsSimple() {
+		
+		return ResponseEntity.status(200)
+				 .body(service.getReviewsSimple());
+	}	
+	
 	@GetMapping("/reviews/{review_id}")
 	public ResponseEntity<ReviewDetails> getReviewsById(@Valid @PathVariable("review_id") int review_id) {
 		
