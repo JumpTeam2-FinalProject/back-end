@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.model.ReviewDetails;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.repository.ReviewRepository;
+import com.cognixia.jump.responsemodels.ReviewDetails;
 import com.cognixia.jump.service.ReviewService;
 
 @RequestMapping("/api")
@@ -45,14 +45,14 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/reviews")
-	public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewDetails review) {
+	public ResponseEntity<ReviewDetails> addReview(@Valid @RequestBody Review review) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.addReview(review));
 	}
 	
 	@DeleteMapping("/reviews/{review_id}")
-	public ResponseEntity<Review> deleteTodoById(@Valid @PathVariable("review_id") int review_id) {
+	public ResponseEntity<ReviewDetails> deleteTodoById(@Valid @PathVariable("review_id") int review_id) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.deleteReviewById(review_id));

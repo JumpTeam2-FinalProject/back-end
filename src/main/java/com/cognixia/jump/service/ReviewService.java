@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
-import com.cognixia.jump.model.ReviewDetails;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
+import com.cognixia.jump.responsemodels.ReviewDetails;
+import com.cognixia.jump.util.DataFormatters;
 
 @Service
 public class ReviewService {
@@ -27,15 +28,9 @@ public class ReviewService {
 	
 	public List<ReviewDetails> getReviews() {
 		
-		List<ReviewDetails> reviews = new ArrayList<ReviewDetails>();
-		
 		List<Review> reviewsList = repo.findAll();
 		
-		for (Review review : reviewsList) {
-			reviews.add(new ReviewDetails(review, review.getUser().getUserId(), review.getRestaurant().getRestaurant_id()));
-		}
-		
-		return reviews;
+		return DataFormatters.getDetailsFromReviews(reviewsList);
 		
 	}	
 	
@@ -43,58 +38,42 @@ public class ReviewService {
 		
 		Optional<Review> reviewOpt = repo.findById(review_id);
 		
-		ReviewDetails review = new ReviewDetails(reviewOpt.get(), reviewOpt.get().getUser().getUserId(), reviewOpt.get().getRestaurant().getRestaurant_id());
-		
-		if (reviewOpt.isPresent()) {
-			return review;
-		}
-		
-		else {
-			return review;
-		}
+		return new ReviewDetails(reviewOpt.get());
 	}
 	
-    public Review addReview(ReviewDetails newReview) {
+    public ReviewDetails addReview(Review newReview) {
+/***********
+ * NOTE:
+ * 		I (David) rewrote some of this method to reduce amount of code and make it work with my updates elsewhere.
+ * 		I left the old code here commented out for now just in case it's needed.
+ * ***********/ 
     	
-    	
-    	Review review = newReview.getReview();
-    	
-    	Restaurant restaurantHolder = new Restaurant();
-    	
-    	restaurantHolder.setRestaurant_id(newReview.getRestaurant_id());
-    	
-    	User userHolder = new User();
-    	
-    	userHolder.setUserId(newReview.getUser_id());
-    	
-    	review.setRestaurant(restaurantHolder);
-    	review.setUser(userHolder);
+//    	Review review = newReview.getReview();
+//    	Restaurant restaurantHolder = new Restaurant();
+//    	restaurantHolder.setRestaurant_id(newReview.getRestaurant_id());
+//    	User userHolder = new User();
+//    	userHolder.setUserId(newReview.getUser_id());
+//    	review.setRestaurant(restaurantHolder);
+//    	review.setUser(userHolder);
     	
     	LocalDate localDate = LocalDate.now();
     	
     	Date date = java.sql.Date.valueOf(localDate);
     	
-    	review.setDate(date);
+    	newReview.setDate(date);
     	
-    	repo.save(review);
+    	repo.save(newReview);
     	
-    	return review;
+    	return new ReviewDetails(newReview);
     }
 	
-	public Review deleteReviewById(int review_id) {
+	public ReviewDetails deleteReviewById(int review_id) {
 		
 	    Optional<Review> reviewOpt = repo.findById(review_id);
 	    
-	    repo.deleteById(review_id);
-	    
-	    if (reviewOpt.isPresent()) {
-	    	return reviewOpt.get();
-	    }
+    	repo.deleteById(review_id);
 
-		else {
-			return reviewOpt.get();
-		}
-
+    	return new ReviewDetails(reviewOpt.get());
 	}
 	
 }
