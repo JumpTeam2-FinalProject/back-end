@@ -1,8 +1,11 @@
 package com.cognixia.jump.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.responsemodels.UserCompleteInfo;
@@ -14,17 +17,28 @@ public class UserService {
 	private UserRepository repo;
 	
 	public UserCompleteInfo createUser(User user) {
-		return new UserCompleteInfo(repo.save(user));
+		User newUser = repo.save(user);
+		newUser.setReviews(new ArrayList<Review>());
+		return new UserCompleteInfo(newUser);
 	}
 	
 	public UserCompleteInfo getCurrentUser() {
-		User user = repo.findById(MyUserDetailsService.getCurrentUserId()).get();
-		return new UserCompleteInfo(user);
+		return getUserById(MyUserDetailsService.getCurrentUserId());
 	}
 	
 	public UserCompleteInfo updateUser(User user) {
 		User preUpdateUser = repo.findById(user.getUserId()).get();
 		return new UserCompleteInfo(repo.save(user));
+	}
+	
+	public UserCompleteInfo getUserById(Integer userId) {
+		User user = repo.findById(userId).get();
+		return new UserCompleteInfo(user);
+	}
+	
+	public UserCompleteInfo getUserByUsername(String username) {
+		User user = repo.findByUsername(username).get();
+		return new UserCompleteInfo(user);
 	}
 	
 }
