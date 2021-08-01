@@ -59,7 +59,7 @@ public class ReviewController {
 	}
 	
 	@DeleteMapping("/reviews/{review_id}")
-	public ResponseEntity<ReviewDetails> deleteTodoById(@Valid @PathVariable("review_id") int review_id) {
+	public ResponseEntity<ReviewDetails> deleteReviewById(@Valid @PathVariable("review_id") int review_id) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.deleteReviewById(review_id));
