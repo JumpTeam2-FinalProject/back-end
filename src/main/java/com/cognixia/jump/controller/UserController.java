@@ -24,6 +24,7 @@ import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.responsemodels.AuthenticationRequest;
 import com.cognixia.jump.responsemodels.AuthenticationResponse;
+import com.cognixia.jump.responsemodels.UserCompleteInfo;
 import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.service.UserService;
 import com.cognixia.jump.util.JwtUtil;
@@ -70,12 +71,18 @@ public class UserController {
 		}
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
 		final String jwt = jwtUtil.generateTokens(userDetails, shouldExpire);
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+		UserCompleteInfo newUserInfo = userService.getUserByUsername(userDetails.getUsername());
+		return ResponseEntity.ok(new AuthenticationResponse(jwt, newUserInfo));
 	}
 
 	@PostMapping("/user")
-	public ResponseEntity<?> createUser(@RequestBody User user) {
-		return ResponseEntity.ok(userService.createUser(user));
+	public ResponseEntity<?> createUserAndSignIn(@RequestBody User user) {
+		final UserCompleteInfo newUserInfo = userService.createUser(user);
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				newUserInfo.getUsername(), user.getPassword()));
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(newUserInfo.getUsername());
+		final String jwt = jwtUtil.generateTokens(userDetails, true);
+		return ResponseEntity.ok(new AuthenticationResponse(jwt, newUserInfo));
 	}
 	
 	@GetMapping("/user")
