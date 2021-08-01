@@ -100,10 +100,11 @@ class ReviewControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(content()
 			.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$[0].review_id").value(2));
-
-
+			.andExpect(jsonPath("$[0].review_id").value(2))
+			.andExpect(jsonPath("$[0].rating").value(4))
+			.andExpect(jsonPath("$[0].review").value("it's AMAZING"));
 	}
+	
 }
 
 
