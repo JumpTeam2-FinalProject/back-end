@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +49,18 @@ public class UserController {
 	private JwtUtil jwtUtil;
 	
 	@PostMapping("/authenticate")
+	public ResponseEntity<?> authenticateUserRemember(@RequestBody AuthenticationRequest request)
+			throws Exception {
+		return doAuthentication(request, true);
+	}
+	
+	@PostMapping("/authenticate/remember")
 	public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest request)
+			throws Exception {
+		return doAuthentication(request, false);
+	}
+
+	public ResponseEntity<?> doAuthentication(AuthenticationRequest request, boolean shouldExpire)
 			throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -57,7 +69,7 @@ public class UserController {
 			throw new BadCredentialsException("Username or password is incorrect.", e);
 		}
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-		final String jwt = jwtUtil.generateTokens(userDetails);
+		final String jwt = jwtUtil.generateTokens(userDetails, shouldExpire);
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 
@@ -68,7 +80,6 @@ public class UserController {
 	
 	@GetMapping("/user")
 	public ResponseEntity<?> getCurrentUser() {
-//		User user = repo.findById(MyUserDetailsService.getCurrentUserId()).get();
 		return ResponseEntity.ok(userService.getCurrentUser());
 	}
 	

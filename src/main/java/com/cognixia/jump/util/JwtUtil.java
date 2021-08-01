@@ -42,22 +42,24 @@ public class JwtUtil {
 		return extractExpiration(token).before(new Date());
 	}
 	
-	public String generateTokens(UserDetails userDetails) {
+	public String generateTokens(UserDetails userDetails, boolean shouldTokenExpire) {
 		
 		Map<String, Object> claims = new HashMap<>();
 		
 		// returns token for user given along with any claims
-		return createToken(claims, userDetails.getUsername());
+		return createToken(claims, userDetails.getUsername(), shouldTokenExpire);
 	}
 	
-	private String createToken(Map<String, Object> claims, String subject) {
+	private String createToken(Map<String, Object> claims, String subject, boolean shouldExpire) {
 		// sets claims
 		// subject (person that is being authenticated)
 		// set when the token was issued
 		// set expiration when token expires and can be no longer used (here its set for 2 hrs)
 		// sign it with particular algorithm and secret key that lets you know this token is authentic
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt( new Date( System.currentTimeMillis() ) )
-				.setExpiration( new Date( System.currentTimeMillis() + 1000 * 60 * 60 * 2 ) )
+		int hoursGood = shouldExpire ? 2 : 9999; // 9,999 hrs ~= 1 yr
+		return Jwts.builder().setClaims(claims).setSubject(subject)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * hoursGood))
 				.signWith(SignatureAlgorithm.HS256, SECRET_KEY)
 				.compact();
 	}
