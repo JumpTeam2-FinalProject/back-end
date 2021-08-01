@@ -1,7 +1,5 @@
 package com.cognixia.jump.responsemodels;
 
-import java.util.Date;
-
 import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
