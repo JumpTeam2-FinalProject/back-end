@@ -49,17 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.PUT, "/api/restaurant/update").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/restaurant/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/restaurant").permitAll()
-			// Allow unauthenticated access to swagger urls. source: https://stackoverflow.com/questions/37671125/how-to-configure-spring-security-to-allow-swagger-url-to-be-accessed-without-aut#answer-37683455
-//			.antMatchers(HttpMethod.GET, "/v2/api-docs",
-//                    "/configuration/ui",
-//                    "/swagger-resources/**",
-//                    "/configuration/security",
-//                    "/swagger-ui.html",
-//                    "/webjars/**").permitAll()
 			.anyRequest().authenticated()
 			.and().sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		// source: https://www.baeldung.com/spring-security-cors-preflight
+		http.cors();
 	}
 	
 	// provides method for spring security to access the AuthenticationManager needed when

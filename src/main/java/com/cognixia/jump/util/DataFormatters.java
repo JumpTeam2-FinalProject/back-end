@@ -3,8 +3,10 @@ package com.cognixia.jump.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.responsemodels.ReviewDetails;
+import com.cognixia.jump.service.RestaurantCompleteInfo;
 
 public class DataFormatters {
 	

@@ -19,11 +19,12 @@ public class UserCompleteInfo {
 			this.firstName = "NOT_FOUND";
 			this.lastName = null;
 			this.reviews = new ArrayList<ReviewDetails>();
+		} else {
+			this.username = user.getUsername();
+			this.firstName = user.getFirstName();
+			this.lastName = user.getLastName();
+			this.reviews = DataFormatters.getDetailsFromReviews(user.getReviews());
 		}
-		this.username = user.getUsername();
-		this.firstName = user.getFirstName();
-		this.lastName = user.getLastName();
-		this.reviews = DataFormatters.getDetailsFromReviews(user.getReviews());
 	}
 	
 	public UserCompleteInfo(String username, String firstName, String lastName, List<ReviewDetails> reviews) {
