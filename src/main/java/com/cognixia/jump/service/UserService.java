@@ -1,6 +1,7 @@
 package com.cognixia.jump.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,14 @@ public class UserService {
 	public UserCompleteInfo getUserByUsername(String username) {
 		User user = repo.findByUsername(username).get();
 		return new UserCompleteInfo(user);
+	}
+	
+	public Optional <User> getUserByUserName(String username) {
+		
+		Optional <User> user = repo.findByUsername(username);
+		
+		return user;
+		
 	}
 	
 }

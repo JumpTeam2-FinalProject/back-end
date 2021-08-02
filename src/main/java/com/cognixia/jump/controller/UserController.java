@@ -1,5 +1,7 @@
 package com.cognixia.jump.controller;
 
+import java.util.Optional;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceAlreadyExistsException;
+import com.cognixia.jump.exception.ResourceDoesNotExistException;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.responsemodels.AuthenticationRequest;
@@ -28,6 +32,8 @@ import com.cognixia.jump.responsemodels.UserCompleteInfo;
 import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.service.UserService;
 import com.cognixia.jump.util.JwtUtil;
+
+import io.swagger.annotations.ApiOperation;
 
 @RequestMapping("/api")
 @RestController
@@ -49,6 +55,9 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
+	@ApiOperation(value = "Find Car By id",
+			notes = "Provide an id to look up a car in the database",
+			response = (User.class))
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> authenticateUserRemember(@RequestBody AuthenticationRequest request)
 			throws Exception {
@@ -76,7 +85,25 @@ public class UserController {
 	}
 
 	@PostMapping("/user")
-	public ResponseEntity<?> createUserAndSignIn(@RequestBody User user) {
+	public ResponseEntity<?> createUserAndSignIn(@RequestBody User user) throws  ResourceAlreadyExistsException {
+		// Optional <UserCompleteInfo> checkUser = userService.getUserByUsername(user.getUsername());
+		 
+		Optional <User> checkUser = null;
+		
+		System.out.print("YESSSfdsafasdfsdS");
+		
+		checkUser = userService.getUserByUserName(user.getUsername());
+		
+		
+		
+		System.out.print("YESSSS");
+			
+		 if(checkUser.isPresent()) {
+			 throw new ResourceAlreadyExistsException("Username " + user.getUsername() + "Already Exists. Please Enter a differnet username");
+		 }
+		
+		
+		
 		final UserCompleteInfo newUserInfo = userService.createUser(user);
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				newUserInfo.getUsername(), user.getPassword()));
