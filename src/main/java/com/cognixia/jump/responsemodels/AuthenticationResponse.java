@@ -5,13 +5,19 @@ package com.cognixia.jump.responsemodels;
 public class AuthenticationResponse {
 
 	private final String jwt;
+	private final UserCompleteInfo user;
 
-	public AuthenticationResponse(String jwt) {
+	public AuthenticationResponse(String jwt, UserCompleteInfo user) {
 		this.jwt = jwt;
+		this.user = user;
 	}
 
 	public String getJwt() {
 		return jwt;
+	}
+	
+	public UserCompleteInfo getUser() {
+		return user;
 	}
 
 }
