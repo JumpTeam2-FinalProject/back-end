@@ -70,6 +70,8 @@
 			<scope>test</scope>
 		</dependency>
 		
+		
+		
 	</dependencies>
 
 	<build>
@@ -80,5 +82,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<dependencyManagement>
+	<dependencies>
+		<!-- swagger 2.9.2 needs guava 20 made swagger work somehow --> 
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>20.0</version>
+		</dependency>
+	</dependencies>
+	</dependencyManagement>
 
 </project>

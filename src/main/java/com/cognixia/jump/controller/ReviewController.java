@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.model.Review;
+import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
 import com.cognixia.jump.responsemodels.ReviewDetails;
 import com.cognixia.jump.service.ReviewService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RequestMapping("/api")
 @RestController
@@ -29,7 +32,9 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewService service;
-	
+	@ApiOperation(value= "Get All Reviews" , 
+			notes= "Get all reviews with their corresponding informations", 
+			response = Review.class)
 	@GetMapping("/reviews")
 	public ResponseEntity<List<ReviewDetails>> getReviews() {
 		
@@ -37,20 +42,27 @@ public class ReviewController {
 				 .body(service.getReviews());
 	}	
 	
+	@ApiOperation(value= "Get All Reviews in Simple Format" , 
+			notes= "Get all reviews with their corresponding informations in Simple Format", 
+			response = Review.class)
 	@GetMapping("/reviews_simple")
 	public ResponseEntity<List<Review>> getReviewsSimple() {
 		
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsSimple());
 	}	
-	
+	@ApiOperation(value= "Get Review by ID" , 
+			notes= "Provide Review Id and return that review", 
+			response = Review.class)
 	@GetMapping("/reviews/{review_id}")
 	public ResponseEntity<ReviewDetails> getReviewsById(@Valid @PathVariable("review_id") int review_id) {
 		
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsById(review_id));
 	}
-	
+	@ApiOperation(value= "Post Reviews" , 
+			notes= "Post a review", 
+			response = Review.class)
 	@PostMapping("/reviews")
 	public ResponseEntity<ReviewDetails> addReview(@Valid @RequestBody Review review) {
 		
@@ -58,6 +70,9 @@ public class ReviewController {
 				 .body(service.addReview(review));
 	}
 	
+	@ApiOperation(value= "Delete a review by ID" , 
+			notes= "Provide Review ID to delete a specific Review", 
+			response = Review.class)
 	@DeleteMapping("/reviews/{review_id}")
 	public ResponseEntity<ReviewDetails> deleteReviewById(@Valid @PathVariable("review_id") int review_id) {
 		
