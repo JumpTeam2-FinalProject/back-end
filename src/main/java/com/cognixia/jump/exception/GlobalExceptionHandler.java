@@ -41,4 +41,24 @@ public class GlobalExceptionHandler {
 		
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
 	}
+	
+	//Exception Handling for when account is created with same username or Restaurant with same name
+	@ExceptionHandler(ResourceAlreadyExistsException.class)
+	public ResponseEntity <?> handleResourceAlreadyExistsError(Exception ex, WebRequest request){
+		
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
+		
+	}
+	
+	@ExceptionHandler(ResourceDoesNotExistException.class)
+	public ResponseEntity<?> handleResourceDoesNotExistError(Exception ex, WebRequest request){
+		
+ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+		
+		
+	}
 }
