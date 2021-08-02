@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
+import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.responsemodels.ReviewDetails;
+import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.service.ReviewService;
+import com.cognixia.jump.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -29,6 +32,9 @@ public class ReviewController {
 
 	@Autowired
 	ReviewRepository repo;
+	
+	@Autowired
+	UserRepository userRepo;
 	
 	@Autowired
 	ReviewService service;
@@ -47,7 +53,6 @@ public class ReviewController {
 			response = Review.class)
 	@GetMapping("/reviews_simple")
 	public ResponseEntity<List<Review>> getReviewsSimple() {
-		
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsSimple());
 	}	
@@ -63,11 +68,10 @@ public class ReviewController {
 	@ApiOperation(value= "Post Reviews" , 
 			notes= "Post a review", 
 			response = Review.class)
-	@PostMapping("/reviews")
-	public ResponseEntity<ReviewDetails> addReview(@Valid @RequestBody Review review) {
-		
+	@PostMapping("/reviews/{restaurant_id}")
+	public ResponseEntity<ReviewDetails> addReview(@PathVariable Integer restaurant_id, @RequestBody Review review) {
 		return ResponseEntity.status(200)
-				 .body(service.addReview(review));
+				 .body(service.addReview(review, restaurant_id));
 	}
 	
 	@ApiOperation(value= "Delete a review by ID" , 
