@@ -26,6 +26,7 @@ import com.cognixia.jump.model.Restaurant;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
+import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.service.MyUserDetails;
 import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.service.ReviewService;
@@ -52,6 +53,9 @@ class ReviewControllerTest {
 	
 	@MockBean
 	private ReviewRepository reviewRepository;
+	
+	@MockBean
+	private UserRepository userRepository;
 	
 	@MockBean
 	private ReviewService service;

@@ -61,6 +61,7 @@ public class RestaurantController {
 	@ApiOperation(value= "Update Restaurant by ID" , 
 			notes= "Update Restaurant with corresponding information in Body", 
 			response = Restaurant.class)
+	
 	@PutMapping(path = "/restaurant/update/{id}")
 	public ResponseEntity<Restaurant> updateRestaurant (@PathVariable int id, @Valid @RequestBody Restaurant restauranUpdated) throws ResourceDoesNotExistException{
 		
