@@ -1,21 +1,16 @@
 package com.cognixia.jump.service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cognixia.jump.model.Restaurant;
+import com.cognixia.jump.exception.ResourceDoesNotExistException;
+import com.cognixia.jump.exception.ResourceNotOwnedByUserException;
 import com.cognixia.jump.model.Review;
-import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.RestaurantRepository;
 import com.cognixia.jump.repository.ReviewRepository;
 import com.cognixia.jump.repository.UserRepository;
@@ -58,40 +53,33 @@ public class ReviewService {
 	}
 	
     public ReviewDetails addReview(Review newReview, Integer restaurant_id) {
-/***********
- * NOTE:
- * 		I (David) rewrote some of this method to reduce amount of code and make it work with my updates elsewhere.
- * 		I left the old code here commented out for now just in case it's needed.
- * ***********/ 
     	
-//    	Review review = newReview.getReview();
-//    	Restaurant restaurantHolder = new Restaurant();
-//    	restaurantHolder.setRestaurant_id(newReview.getRestaurant_id());
-//    	User userHolder = new User();
-//    	userHolder.setUserId(newReview.getUser_id());
-//    	review.setRestaurant(restaurantHolder);
-//    	review.setUser(userHolder);
-    	System.out.println("NEW REVIEW\n\n============================");
-    	System.out.println(newReview);
-    	System.out.println(newReview.getRestaurant());
-
-    	System.out.println(newReview.getUser());
+    	// Set user to the current user that's logged in even if the review object in the request gives a different user
     	newReview.setUser(userRepo.getById(MyUserDetailsService.getCurrentUserId()));
     	newReview.setRestaurant(restaurantRepo.getById(restaurant_id));
-    	LocalDate localDate = LocalDate.now();
     	
-    	Date date = java.sql.Date.valueOf(localDate);
-    	
-    	newReview.setDate(date);
+    	LocalDate todayLocalDate = LocalDate.now();
+    	Date todayDate = java.sql.Date.valueOf(todayLocalDate);
+    	newReview.setDate(todayDate);
     	
     	repo.save(newReview);
     	
     	return new ReviewDetails(newReview);
     }
 	
-	public ReviewDetails deleteReviewById(int review_id) {
+	public ReviewDetails deleteReviewById(Integer review_id) throws ResourceDoesNotExistException, ResourceNotOwnedByUserException {
 		
 	    Optional<Review> reviewOpt = repo.findById(review_id);
+	    
+	    // Check that a review w/ id was found AND that it belongs to the current user 
+	    if (reviewOpt.isPresent()) {
+	    	throw new ResourceDoesNotExistException(
+	    			"There is no review with the id " + review_id + ".");
+	    }
+	    if (reviewOpt.get().getUser().getUserId() == MyUserDetailsService.getCurrentUserId()) {
+	    	throw new ResourceNotOwnedByUserException(
+	    			"You may not update this review because you are not the user who created it.");
+	    }
 	    
     	repo.deleteById(review_id);
 
