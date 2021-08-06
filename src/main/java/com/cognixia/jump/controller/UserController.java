@@ -84,21 +84,12 @@ public class UserController {
 				response = User.class)
 	@PostMapping("/user")
 	public ResponseEntity<?> createUserAndSignIn(@RequestBody User user) throws ResourceAlreadyExistsException {
-		// Optional <UserCompleteInfo> checkUser =
-		// userService.getUserByUsername(user.getUsername());
-
-		Optional<User> checkUser = null;
-
-	
-
-		checkUser = userService.getUserByUserName(user.getUsername());
-
+		Optional<User> checkUser = userService.getUserByUserName(user.getUsername());
 		//check if exist for account creation or not
 		if (checkUser.isPresent()) {
 			throw new ResourceAlreadyExistsException(
 					"Username " + user.getUsername() + "Already Exists. Please Enter a differnet username");
 		}
-
 		final UserCompleteInfo newUserInfo = userService.createUser(user);
 		authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(newUserInfo.getUsername(), user.getPassword()));

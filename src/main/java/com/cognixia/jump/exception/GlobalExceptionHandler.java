@@ -20,7 +20,6 @@ public class GlobalExceptionHandler {
 		ErrorDetails errorDetails = 
 				new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		
-		
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
 	}
 	
@@ -49,16 +48,21 @@ public class GlobalExceptionHandler {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
-		
 	}
 	
 	@ExceptionHandler(ResourceDoesNotExistException.class)
 	public ResponseEntity<?> handleResourceDoesNotExistError(Exception ex, WebRequest request){
 		
-ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+	}
+	
+	@ExceptionHandler(ResourceNotOwnedByUserException.class)
+	public ResponseEntity<?> handleUserDoesNotOwnResourceError(Exception ex, WebRequest request) {
 		
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
 		
+		return ResponseEntity.status(HttpStatus.LOCKED).body(errorDetails);
 	}
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cognixia.jump.exception.ResourceAlreadyExistsException;
 import com.cognixia.jump.exception.ResourceDoesNotExistException;
 import com.cognixia.jump.model.Restaurant;
-import com.cognixia.jump.model.Review;
 import com.cognixia.jump.responsemodels.RestaurantCompleteInfo;
 import com.cognixia.jump.service.RestaurantService;
 
@@ -42,6 +41,15 @@ public class RestaurantController {
 		return restaurantService.getAllRestaurants();
 	}
 	
+	@ApiOperation(value= "Update Restaurant by ID" , 
+			notes= "Update Restaurant with corresponding information in Body", 
+			response = Restaurant.class)
+	@PutMapping(path = "/restaurant/{id}")
+	public ResponseEntity<Restaurant> updateRestaurant (@PathVariable Integer id, @Valid @RequestBody Restaurant restauranUpdated) throws ResourceDoesNotExistException{
+		
+		return restaurantService.updateRestaurant(id, restauranUpdated);
+	}
+	
 	@ApiOperation(value= "Get a Single Restaurant by ID" , 
 			notes= "Get a Single Restaurant and all its corresponding reviews by ID ", 
 			response = RestaurantCompleteInfo.class)
@@ -61,7 +69,6 @@ public class RestaurantController {
 	@ApiOperation(value= "Update Restaurant by ID" , 
 			notes= "Update Restaurant with corresponding information in Body", 
 			response = Restaurant.class)
-	
 	@PutMapping(path = "/restaurant/update/{id}")
 	public ResponseEntity<Restaurant> updateRestaurant (@PathVariable int id, @Valid @RequestBody Restaurant restauranUpdated) throws ResourceDoesNotExistException{
 		

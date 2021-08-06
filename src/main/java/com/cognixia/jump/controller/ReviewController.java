@@ -1,7 +1,6 @@
 package com.cognixia.jump.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,14 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceDoesNotExistException;
+import com.cognixia.jump.exception.ResourceNotOwnedByUserException;
 import com.cognixia.jump.model.Review;
-import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ReviewRepository;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.responsemodels.ReviewDetails;
-import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.service.ReviewService;
-import com.cognixia.jump.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -38,6 +36,7 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewService service;
+	
 	@ApiOperation(value= "Get All Reviews" , 
 			notes= "Get all reviews with their corresponding informations", 
 			response = Review.class)
@@ -55,7 +54,8 @@ public class ReviewController {
 	public ResponseEntity<List<Review>> getReviewsSimple() {
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsSimple());
-	}	
+	}
+	
 	@ApiOperation(value= "Get Review by ID" , 
 			notes= "Provide Review Id and return that review", 
 			response = Review.class)
@@ -65,6 +65,7 @@ public class ReviewController {
 		return ResponseEntity.status(200)
 				 .body(service.getReviewsById(review_id));
 	}
+	
 	@ApiOperation(value= "Post Reviews" , 
 			notes= "Post a review", 
 			response = Review.class)
@@ -78,7 +79,7 @@ public class ReviewController {
 			notes= "Provide Review ID to delete a specific Review", 
 			response = Review.class)
 	@DeleteMapping("/reviews/{review_id}")
-	public ResponseEntity<ReviewDetails> deleteReviewById(@Valid @PathVariable("review_id") int review_id) {
+	public ResponseEntity<ReviewDetails> deleteReviewById(@Valid @PathVariable("review_id") int review_id) throws ResourceDoesNotExistException, ResourceNotOwnedByUserException {
 		
 		return ResponseEntity.status(200)
 				 .body(service.deleteReviewById(review_id));
